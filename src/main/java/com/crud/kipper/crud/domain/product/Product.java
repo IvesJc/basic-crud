@@ -18,9 +18,11 @@ public class Product {
     private String id;
     private String name;
     private Integer priceInCents;
+    private boolean active;
 
     public Product(RequestProduct requestProduct) {
         this.name = requestProduct.name();
         this.priceInCents = requestProduct.price_in_cents();
+        this.active = true;
     }
 }
