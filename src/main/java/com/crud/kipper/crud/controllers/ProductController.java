@@ -36,6 +36,8 @@ public class ProductController {
 
     @PutMapping
     @Transactional
+    // quando executa mais de uma operação no banco de dados em seguida e elas devem ser iniciadas e
+    // finalizadas juntas
     public ResponseEntity updateProduct(@RequestBody @Valid RequestProduct data){
         Optional<Product> optionalProduct = repository.findById(data.id());
         if (optionalProduct.isPresent()){
@@ -47,14 +49,9 @@ public class ProductController {
         return ResponseEntity.notFound().build();
     }
 
-    @DeleteMapping
-    public ResponseEntity deleteProduct(@RequestBody @Valid RequestProduct data){
-        Optional<Product> optionalProduct = repository.findById(data.id());
-        if (optionalProduct.isPresent()){
-            Product product = optionalProduct.get();
-            repository.delete(product);
-            return ResponseEntity.ok(product);
-        }
-        return ResponseEntity.notFound().build();
+    @DeleteMapping("/{id}")
+    public ResponseEntity deleteProduct(@PathVariable String id){
+        repository.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
 }
